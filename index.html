@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558d3">
+  <title>Daily Routine Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Daily Routine Checker home">
+        <span class="brand-mark">✓</span>
+        <span><strong>Daymark</strong><small>Daily Routine Checker</small></span>
+      </a>
+      <div class="top-actions">
+        <span id="cloudStatus" class="status-pill"><span class="status-dot"></span> Local mode</span>
+        <button id="themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">☾</button>
+        <button id="accountBtn" class="btn btn-soft">Account / Sync</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="welcome-row">
+        <div>
+          <p class="eyebrow" id="todayLabel">YOUR DAY, YOUR PACE</p>
+          <h1>Build a day you’re proud of.</h1>
+          <p class="muted">Small actions, repeated consistently, make a big difference.</p>
+        </div>
+        <div class="date-chip"><span>◷</span><span id="currentDate"></span></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Today's overview">
+        <article class="stat-card stat-primary">
+          <div class="stat-head"><span>Today's progress</span><span class="stat-icon">↗</span></div>
+          <div class="stat-value"><span id="progressPercent">0%</span><small id="progressFraction">0 of 0 complete</small></div>
+          <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-head"><span>Current streak</span><span class="stat-icon">♨</span></div>
+          <div class="stat-value"><span id="currentStreak">0 days</span><small>Keep showing up</small></div>
+          <div class="stat-note">Best streak: <strong id="bestStreak">0 days</strong></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-head"><span>Completion rate</span><span class="stat-icon">◉</span></div>
+          <div class="stat-value"><span id="completionRate">0%</span><small>Over the last 7 days</small></div>
+          <div class="mini-bars" id="miniBars" aria-label="Last seven days completion chart"></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-head"><span>Achievements</span><span class="stat-icon">✦</span></div>
+          <div class="stat-value"><span id="achievementCount">0</span><small>Milestones unlocked</small></div>
+          <div class="stat-note" id="nextAchievement">Complete routines to unlock badges.</div>
+        </article>
+      </section>
+
+      <section class="main-grid">
+        <div class="panel routine-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">STAY CONSISTENT</p><h2>Your routines</h2></div>
+            <button id="addRoutineBtn" class="btn btn-primary">＋ Add routine</button>
+          </div>
+          <div id="weekStrip" class="week-strip" aria-label="Choose a day"></div>
+          <div class="routine-toolbar">
+            <span id="selectedDayLabel" class="muted">Today's plan</span>
+            <span id="dayCount" class="small-muted">0 routines</span>
+          </div>
+          <div id="routineList" class="routine-list"></div>
+          <div id="emptyState" class="empty-state hidden">
+            <div class="empty-illustration">✧</div>
+            <h3>A fresh start</h3>
+            <p>Add a routine and make today count.</p>
+            <button id="emptyAddBtn" class="btn btn-primary">Create your first routine</button>
+          </div>
+        </div>
+
+        <aside class="side-column">
+          <section class="panel">
+            <div class="panel-heading compact"><div><p class="eyebrow">YOUR MOMENTUM</p><h2>Weekly analytics</h2></div></div>
+            <div id="weeklyChart" class="weekly-chart" aria-label="Weekly routine completion"></div>
+            <div class="chart-legend"><span><i></i> Routines completed</span><span id="weeklySummary">0 completed this week</span></div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading compact"><div><p class="eyebrow">KEEP GOING</p><h2>Achievements</h2></div><span class="trophy">✦</span></div>
+            <div id="achievementList" class="achievement-list"></div>
+          </section>
+          <section class="panel quote-panel">
+            <span class="quote-mark">“</span>
+            <p id="dailyQuote">You don't have to be perfect. You just have to keep going.</p>
+            <span class="quote-credit">A LITTLE REMINDER</span>
+          </section>
+        </aside>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">LOOK BACK, LEARN, GROW</p><h2>Routine history</h2></div>
+          <label class="date-field">Choose date <input type="date" id="historyDate"></label>
+        </div>
+        <div id="historySummary" class="history-summary"></div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section class="panel tools-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">YOUR DATA, YOUR CONTROL</p><h2>Backup & reminders</h2></div>
+        </div>
+        <p class="muted">Export a backup before switching browsers or devices. Reminders work while this page is open; browser support and permission are required.</p>
+        <div class="tool-actions">
+          <button id="exportBtn" class="btn btn-soft">↓ Export backup</button>
+          <label class="btn btn-soft file-label">↑ Import backup<input id="importFile" type="file" accept="application/json,.json" hidden></label>
+          <button id="reminderBtn" class="btn btn-soft">♧ Enable notifications</button>
+          <button id="testReminderBtn" class="btn btn-soft">Test notification</button>
+        </div>
+        <p id="reminderStatus" class="small-muted">Reminders are not enabled.</p>
+      </section>
+    </main>
+    <footer><span>Daymark</span><span>Progress over perfection.</span></footer>
+  </div>
+
+  <dialog id="routineDialog" class="modal">
+    <form id="routineForm" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">MAKE IT A HABIT</p><h2 id="routineDialogTitle">Add a routine</h2></div><button type="button" class="icon-btn" data-close="routineDialog" aria-label="Close">×</button></div>
+      <input id="routineId" type="hidden">
+      <label class="form-label">Routine name<input id="routineName" maxlength="80" required placeholder="e.g. Read for 20 minutes"></label>
+      <label class="form-label">Category
+        <select id="routineCategory"><option>Personal</option><option>Health</option><option>Learning</option><option>Work</option><option>Mindfulness</option><option>Fitness</option><option>Other</option></select>
+      </label>
+      <label class="form-label">Reminder time (optional)<input id="routineTime" type="time"></label>
+      <fieldset class="weekday-fieldset"><legend>Repeat on</legend><div id="weekdayChecks" class="weekday-checks"></div></fieldset>
+      <div class="modal-actions"><button type="button" class="btn btn-soft" data-close="routineDialog">Cancel</button><button type="submit" class="btn btn-primary">Save routine</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="accountDialog" class="modal">
+    <div class="modal-heading"><div><p class="eyebrow">YOUR ACCOUNT</p><h2 id="accountTitle">Cloud sync</h2></div><button type="button" class="icon-btn" data-close="accountDialog" aria-label="Close">×</button></div>
+    <div id="accountLoggedOut">
+      <p class="muted">Create an account or sign in to sync routines and history with this app's server. Your local data stays on this device until you choose to sync.</p>
+      <div class="auth-tabs"><button id="showLogin" class="auth-tab active" type="button">Sign in</button><button id="showRegister" class="auth-tab" type="button">Create account</button></div>
+      <form id="authForm">
+        <label class="form-label">Email<input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></label>
+        <label class="form-label">Password<input id="authPassword" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="At least 8 characters"></label>
+        <button id="authSubmit" type="submit" class="btn btn-primary full-width">Sign in & sync</button>
+      </form>
+      <p class="small-muted">Use a unique password. Cloud sync requires the Node.js server to be running and hosted for access from other devices.</p>
+    </div>
+    <div id="accountLoggedIn" class="hidden">
+      <div class="account-summary"><div class="avatar">✓</div><div><strong id="accountEmail"></strong><p class="muted">Connected to cloud sync</p></div></div>
+      <div class="account-actions"><button id="syncNowBtn" class="btn btn-primary full-width">Sync this device</button><button id="signOutBtn" class="btn btn-soft full-width">Sign out</button></div>
+      <p class="small-muted">Sync uses the latest local data as the source of truth and replaces the cloud copy for this account.</p>
+    </div>
+    <p id="accountMessage" class="message" role="status"></p>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

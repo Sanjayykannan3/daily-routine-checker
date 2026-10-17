@@ -1,0 +1,16 @@
+{
+  "name": "daily-routine-checker",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Daily Routine Checker with local storage, backup, analytics, and optional account/cloud sync",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
